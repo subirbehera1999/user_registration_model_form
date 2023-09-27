@@ -8,8 +8,14 @@
 <body>
     {% block body_block %}
     <center>
+        {% if username %}
+            <h1 style="margin-top: 50px ;">HI WELCOME TO HOME PAGE MR/MRS. {{username}}</h1>
+
+        {% else %}
+            <h1 style="margin-top: 50px ;">WELCOME TO REGISTRATION HOME PAGE</h1>
+        {% endif %}
         
-        <h1 style="margin-top: 50px ;">WELCOME TO REGISTRATION HOME PAGE</h1>
+        
 
     </center>
     {% endblock %}
