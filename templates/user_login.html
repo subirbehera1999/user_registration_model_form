@@ -6,16 +6,21 @@
 
 {% block body_block %}
 <center>
+    <br><br><br><br>
     <h1>WELCOME TO LOGIN PAGE</h1>
     <form method="POST">
         {% csrf_token %}
+        <br>
         <label for="username">Username</label>
         <input type="text" name="username" id="username"><br><br>
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password"><br><br>
 
+        <a href="{% url 'forget_password' %}">forget password ?</a><br><br>
+
         <input type="submit" value="login" class="btn btn-primary">
+        
     </form>
 </center>
 {% endblock %}
