@@ -5,7 +5,10 @@ from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+
 import random
+
+
 
 # Create your views here.
 def user_login(request):
@@ -91,10 +94,54 @@ def forget_password(request):
             return HttpResponseRedirect(reverse('user_login'))
     return render(request,'forget_password.html')
 
+def forget_password(request):
+    if request.method=="POST":
+        username=request.POST['username']
 
+        QSU=User.objects.filter(username=username)
+        if len(QSU)!=0:
+            UO=QSU[0]
+            global CODE
+            CODE=random.randint(1000,9999)
+            
+            send_mail('Reset password',
+                      f"your OTP is {CODE}",
+                      'subirbehera1999@gmail.com',
+                      [UO.email],
+                      fail_silently=False)
+            return HttpResponseRedirect(reverse('vcode'))
+    return render(request,'forget_password.html')
+def vcode(request):
+    if request.method=="POST":
+        code=request.POST['vcode']
+        if CODE==int(code):
+            return HttpResponseRedirect(reverse('reset_password'))
+    return render(request,'vcode.html')
 
+def reset_password(request):
+    if request.method=="POST":
+        username=request.POST['username']
+        pw=request.POST['password']
+        rpw=request.POST['passwords']
+        QSU=User.objects.filter(username=username)
+        if len(QSU)!=0:
+            if pw==rpw:
+                UO=QSU[0]
+                UO.set_password(request.POST['password'])
+                UO.save()
+                return HttpResponseRedirect(reverse('user_login'))
+            else:
+                MSG='password not matching'
+                d={'MSG':MSG}
+                return render(request,'reset_password.html',d)
+        else:
+            MSG='password not matching'
+            d={'MSG':MSG}
+            return render(request,'reset_password.html',d)
 
+        
 
+    return render(request,'reset_password.html')
 
 
 

@@ -13,12 +13,12 @@
       <br><br>
       <form method="post">
         {% csrf_token %}
-        <label for="username">Username</label><br>
-        <input type="text" name="username" id="username" placeholder="Enter your username"><br><br>
+        <label for="username">OTP sent to your Email</label><br>
         <input type="text" name="vcode" id="vcode" placeholder="Enter verification code"><br><br>
         
+        
 
-        <input type="submit" value="Get OTP" class="btn btn-info">
+        <input type="submit" value="Verify" class="btn btn-info">
       </form>
 
         
